@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', (e) => {
+  document.querySelector('#wpcontent').classList.add('bg-dark');
   let editor;
   var app = new Vue({
     el : "#app",
@@ -9,12 +10,15 @@ document.addEventListener('DOMContentLoaded', (e) => {
           post_type : null,
           template : null,
         },
-        selected : null
+        selected : null,
+        updating : false,
+        messageShow : false,
+        extendedUpdating : false,
+        extendedMessageShow : false,
       }
     },
     mounted () {
       let data = new FormData();
-      console.log(editor);
       data.append('action','get_cps_settings')
       axios
         .get(window.location.origin + '/wp-json/wp/v2/types')
@@ -29,33 +33,47 @@ document.addEventListener('DOMContentLoaded', (e) => {
     },
     methods : {
       updateCPSSettings () {
-        let data = new FormData();
-        data.append('action', 'save_cps_settings');
-        this.settings.template = encodeURIComponent(document.querySelector('#edit').value);
-        for ( var key in this.settings ) {
-            data.append(key, this.settings[key]);
+        if (!this.updating) {
+          this.updating = true;
+          let data = new FormData();
+          data.append('action', 'save_cps_settings');
+          this.settings.template = encodeURIComponent(document.querySelector('#edit').value);
+          for ( var key in this.settings ) {
+              data.append(key, this.settings[key]);
+          }
+          axios
+            .post(ajaxurl, data)
+            .then( response => {
+              if (response.data.success === true) {
+                this.messageShow = true;
+                setTimeout(() => { this.messageShow = false }, 5000);
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+            .then(() => (this.updating = false))
         }
-        axios
-          .post(ajaxurl, data)
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
       },
       updateCPSExtendedSettings () {
-        let data = new FormData();
-        data.append('action', 'update_cps_extended_settings');
-        data.append('extended_settings', encodeURIComponent(JSON.stringify(this.settings.searchable_metas)));
-        axios
-          .post(ajaxurl, data)
-          .then( response => {
-            console.log(response);
-          })
-          .catch( error => {
-            console.log(error);
-          })
+        if (!this.extendedUpdating) {
+          this.extendedUpdating = true;
+          let data = new FormData();
+          data.append('action', 'update_cps_extended_settings');
+          data.append('extended_settings', encodeURIComponent(JSON.stringify(this.settings.searchable_metas)));
+          axios
+            .post(ajaxurl, data)
+            .then( response => {
+              if (response.data.success === true) {
+                this.extendedMessageShow = true;
+                setTimeout(() => { this.extendedMessageShow = false }, 5000);
+              }
+            })
+            .catch( error => {
+              console.log(error);
+            })
+            .then(() => (this.extendedUpdating = false))
+        }
       }
     }
   })

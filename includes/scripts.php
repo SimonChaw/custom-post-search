@@ -37,6 +37,8 @@ function load_scripts( $hook ) {
           wp_enqueue_style( 'bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', [], '4.3.1');
           wp_register_script( 'cps-admin-scripts', $js_dir . 'admin-app.js', ['jquery', 'jquery-form'], CPS_VERSION, false );
           wp_enqueue_script( 'cps-admin-scripts' );
+          wp_register_style('cps-admin-style', $css_dir . 'admin.css', [], CPS_VERSION, false);
+          wp_enqueue_style('cps-admin-style');
           wp_localize_script( 'cps-admin-scripts', 'ajax_object', array(
               'ajaxurl' => admin_url( 'admin-ajax.php' , '')
           ) );

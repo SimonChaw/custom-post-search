@@ -23,9 +23,26 @@ function get_cps_settings(){
     wp_die();
   }
 }
-
 add_action('wp_ajax_get_cps_settings', 'get_cps_settings', 10);
-add_action('wp_ajax_nopriv_get_cps_settings', 'get_cps_settings', 10);
+
+/**
+* Get the current settings configured for CPS but hide fields that aren't searchable.
+*
+* @since  1.0
+* @return mixed
+*/
+function get_nopriv_cps_settings(){
+ //
+ CPS()->settings->loadExistingSettings( true );
+
+ if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+   header( 'Content-Type: application/json' );
+   echo json_encode( CPS()->settings );
+   wp_die();
+ }
+}
+add_action('wp_ajax_cps_settings', 'get_nopriv_cps_settings', 10);
+add_action('wp_ajax_nopriv_cps_settings', 'get_nopriv_cps_settings', 10);
 
 /**
 * Get all the posts that are the CPS type.
@@ -71,6 +88,11 @@ function save_cps_settings(){
   $settings->post_type = $_POST['post_type'];
   $settings->template = urldecode($_POST['template']);
   $settings->save();
+  if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+   header( 'Content-Type: application/json' );
+   echo json_encode( array( 'success' =>  true ) );
+   wp_die();
+  }
 }
 
 add_action('wp_ajax_save_cps_settings', 'save_cps_settings', 10);
