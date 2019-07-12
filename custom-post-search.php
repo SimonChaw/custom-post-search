@@ -3,7 +3,7 @@
  * Plugin Name: Custom Post Search
  * Plugin URI: https://github.com/SimonChaw/custom-post-search/
  * Description: A simple search tool for users to use on the front end to search through custom post types.
- * Author: Simon Chawla
+ * Author: Shadow Software Solutions
  * Author URI: https://simonchawla.com
  * Version: 1.0.0
  * Text Domain: custom-post-search

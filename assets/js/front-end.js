@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
     mounted() {
       let ajaxurl = ajax_object.ajaxurl;
       let data = new FormData();
-      data.append('action','get_cps_settings')
+      data.append('action','cps_settings')
       axios.post(ajaxurl, data)
         .then(response => (this.settings = response.data))
         .catch(function (error) {
