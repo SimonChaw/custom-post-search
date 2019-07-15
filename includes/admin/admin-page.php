@@ -23,7 +23,7 @@ function render_admin_view(){
           <div>Searchable post type:</div>
           <div>
             <select v-model="settings.post_type" class="form-control" style="width: 200px;">
-              <option v-for="(type) in postTypes" >{{ type.name }}</option>
+              <option v-for="(type) in postTypes" v-bind:value="type.slug">{{ type.name }}</option>
             </select>
           </div>
         </div>

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', (e) => {
-  document.querySelector('#wpcontent').classList.add('bg-dark');
+  
   let editor;
   var app = new Vue({
     el : "#app",

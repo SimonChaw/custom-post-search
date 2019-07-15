@@ -117,7 +117,7 @@ class CPS_Settings {
 	}
 
   public function save(){
-		update_post_meta($this->id, 'cps_post_type', $this->post_type);
+		update_post_meta($this->id, 'cps_post_type', strtolower($this->post_type));
 		update_post_meta($this->id, 'cps_template', $this->template);
   }
 
