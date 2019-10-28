@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) exit;
  * @since       1.0
  */
 class CPS_Settings {
+
     /* ID of seting
      *
      * @access  public
@@ -40,6 +41,7 @@ class CPS_Settings {
      * @since   1.0
     */
     public $searchable_metas;
+  
     function __construct() {
         $this->check_if_exists();
         // Load exisiting settings
